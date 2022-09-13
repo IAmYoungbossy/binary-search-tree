@@ -10,6 +10,17 @@ class Tree {
 	constructor(array) {
 		this.root = buildTree(removeDuplicates(mergeSort(array)));
 	}
+	delete(value, root = this.root) {
+		if (root.data === value) return true;
+		if (root.data < value) {
+			root = root.right;
+			if (root === null) return false;
+			return this.delete(value, root);
+		}
+		root = root.left;
+		if (root === null) return false;
+		return this.delete(value, root);
+	}
 }
 
 function mergeSort(array) {
@@ -66,3 +77,4 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 prettyPrint(tree.root);
+console.log(tree.delete(7));
