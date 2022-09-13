@@ -10,21 +10,39 @@ class Tree {
 	constructor(array) {
 		this.root = buildTree(removeDuplicates(mergeSort(array)));
 	}
-	delete(value, root = this.root) {
+	delete(value, root = this.root, prevRoot = null) {
 		if (root.data === value) {
-			if (root.left === null && root.right === null) return "It's a Node leaf.";
-			if (root.left === null) return "It has one right Node.";
-			if (root.right === null) return "It has one left Node.";
-			return "It has left and right Node."
+			if (root.left === null && root.right === null) {
+				console.log(prevRoot);
+				if (prevRoot.left.data === value) console.log("On the left");
+				else console.log("On the Right.");
+				return "It's a Node leaf.";
+			}
+			if (root.left === null) {
+				console.log(prevRoot);
+				if (prevRoot.left.data === value) console.log("On the left");
+				else console.log("On the Right.");
+				return "It has one right Node.";
+			}
+			if (root.right === null) {
+				console.log(prevRoot);
+				if (prevRoot.left.data === value) console.log("On the left");
+				else console.log("On the Right.");
+				return "It has one left Node.";
+			}
+			console.log(prevRoot);
+			if (prevRoot.left.data === value) console.log("On the left");
+			else console.log("On the Right.");
+			return "It has left and right Node.";
 		}
 		if (root.data < value) {
-			root = root.right;
+			const nextRoot = root.right;
 			if (root === null) return false;
-			return this.delete(value, root);
+			return this.delete(value, nextRoot, (prevRoot = root));
 		}
-		root = root.left;
+		const nextRoot = root.left;
 		if (root === null) return false;
-		return this.delete(value, root);
+		return this.delete(value, nextRoot, (prevRoot = root));
 	}
 }
 
@@ -81,5 +99,5 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
+console.log(tree.delete(324));
 prettyPrint(tree.root);
-console.log(tree.delete(67));
