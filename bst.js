@@ -11,7 +11,12 @@ class Tree {
 		this.root = buildTree(removeDuplicates(mergeSort(array)));
 	}
 	delete(value, root = this.root) {
-		if (root.data === value) return true;
+		if (root.data === value) {
+			if (root.left === null && root.right === null) return "It's a Node leaf.";
+			if (root.left === null) return "It has one right Node.";
+			if (root.right === null) return "It has one left Node.";
+			return "It has left and right Node."
+		}
 		if (root.data < value) {
 			root = root.right;
 			if (root === null) return false;
@@ -77,4 +82,4 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 prettyPrint(tree.root);
-console.log(tree.delete(7));
+console.log(tree.delete(67));
