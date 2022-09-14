@@ -103,7 +103,12 @@ class Tree {
 		return this.find(value, nextRoot);
 	}
 
-	levelOrder(queueArray = [], readArray = [this.root.data], currentNode = this.root) {
+	levelOrder(
+		callback,
+		queueArray = [],
+		readArray = [this.root.data],
+		currentNode = this.root
+	) {
 		// Base case for termination
 		if (currentNode.left === null && currentNode.right === null) return;
 
@@ -119,10 +124,11 @@ class Tree {
 		while (queueArray.length) {
 			readArray.push(queueArray[0].data);
 			currentNode = queueArray.shift();
-			this.levelOrder(queueArray, readArray, currentNode);
+			this.levelOrder(callback, queueArray, readArray, currentNode);
 		}
 
 		// Returned value
+		if (callback) return readArray.map((item) => callback(item));
 		return readArray;
 	}
 }
@@ -191,4 +197,4 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 prettyPrint(tree.root);
-console.log(tree.levelOrder());
+console.log(tree.levelOrder((item)=>item*2));
