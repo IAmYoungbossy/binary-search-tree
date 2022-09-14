@@ -103,7 +103,7 @@ class Tree {
 		return this.find(value, nextRoot);
 	}
 
-	levelOrder(queueArray = [], readArray = [], currentNode = this.root) {
+	levelOrder(queueArray = [], readArray = [this.root.data], currentNode = this.root) {
 		// Base case for termination
 		if (currentNode.left === null && currentNode.right === null) return;
 
