@@ -102,6 +102,29 @@ class Tree {
 		if (nextRoot == null) return "Data Not Found.";
 		return this.find(value, nextRoot);
 	}
+
+	levelOrder(queueArray = [], readArray = [], currentNode = this.root) {
+		// Base case for termination
+		if (currentNode.left === null && currentNode.right === null) return;
+
+		// Condition for pushing unread node to queueArray
+		if (currentNode.left !== null && currentNode.right !== null)
+			queueArray.push(currentNode.left, currentNode.right);
+		if (currentNode.left !== null && currentNode.right === null)
+			queueArray.push(currentNode.left);
+		if (currentNode.right !== null && currentNode.left === null)
+			queueArray.push(currentNode.right);
+
+		// Condition for recursion
+		while (queueArray.length) {
+			readArray.push(queueArray[0].data);
+			currentNode = queueArray[0].shift();
+			this.levelOrder(queueArray, readArray, currentNode);
+		}
+
+		// Returned value
+		return readArray;
+	}
 }
 
 // Array sorting Algorithm
@@ -168,3 +191,4 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 prettyPrint(tree.root);
+console.log(tree.levelOrder());
