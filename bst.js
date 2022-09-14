@@ -118,7 +118,7 @@ class Tree {
 		// Condition for recursion
 		while (queueArray.length) {
 			readArray.push(queueArray[0].data);
-			currentNode = queueArray[0].shift();
+			currentNode = queueArray.shift();
 			this.levelOrder(queueArray, readArray, currentNode);
 		}
 
