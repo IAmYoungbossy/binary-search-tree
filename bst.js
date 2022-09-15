@@ -131,6 +131,25 @@ class Tree {
 		if (callback) return readArray.map((item) => callback(item));
 		return readArray;
 	}
+
+	preorder(callback, currentNode = this.root, array = []){
+	  // Base case.
+	  if(currentNode === null) return;
+	  
+	  // Read data.
+	  array.push(currentNode.data);
+	  
+	  // Recursive case.
+	  if(currentNode){
+	    if(currentNode.left !== null)
+	      this.preorder(callback, currentNode.left, array);
+	    if(currentNode.right !== null)
+	      this.preorder(callback, currentNode.right, array);
+	  }
+	 
+	 if (callback) return array.map((item) => callback(item));
+	 return array;
+	}
 }
 
 // Array sorting Algorithm
