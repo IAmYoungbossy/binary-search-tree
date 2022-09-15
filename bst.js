@@ -167,50 +167,48 @@ class Tree {
 		return array;
 	}
 
-	postorder(callback, currentNode = this.root, array = []){
-	  // Base case.
-	  if(currentNode === null) return;
-	  
-	  if(currentNode){
-	    // Left and right recursion.
-	    if(currentNode.left !== null)
-	      this.postorder(callback, currentNode.left, array);
-	    if(currentNode.right !== null)
-	      this.postorder(callback, currentNode.right, array);
-	      
-	    // Read data.
-      array.push(currentNode.data);
-	  }
+	postorder(callback, currentNode = this.root, array = []) {
+		// Base case.
+		if (currentNode === null) return;
 
-	 if (callback) return array.map((item) => callback(item));
-	 return array;
+		if (currentNode) {
+			// Left and right recursion.
+			if (currentNode.left !== null)
+				this.postorder(callback, currentNode.left, array);
+			if (currentNode.right !== null)
+				this.postorder(callback, currentNode.right, array);
+
+			// Read data.
+			array.push(currentNode.data);
+		}
+
+		if (callback) return array.map((item) => callback(item));
+		return array;
 	}
 
 	// Measures tree height from input node.
-	height(value, node = this.find(value), counter = 0){
-	  // Base case.
-	  if(node === null) return;
-	  
-	  // Recursive case.
-	  if(node.left !== null)
-	  return this.height(value, node.left, counter+1);
-	  if(node.right !== null)
-	  return this.height(value, node.right, counter+1);
+	height(value, node = this.find(value), counter = 0) {
+		// Base case.
+		if (node === null) return;
 
-	 return counter;
+		// Recursive case.
+		if (node.left !== null) return this.height(value, node.left, counter + 1);
+		if (node.right !== null) return this.height(value, node.right, counter + 1);
+
+		return counter;
 	}
 
-	depth(value, root = this.root, counter = 0){
+	depth(value, root = this.root, counter = 0) {
 		// Base case.
 		if (root.data == value) return counter;
-		
+
 		// Recursive case.
 		if (root.data < value) {
 			if (root.right === null) return "Data Not Found.";
-			return this.depth(value, root.right, counter+1);
+			return this.depth(value, root.right, counter + 1);
 		}
 		if (root.left === null) return "Data Not Found.";
-		return this.depth(value, root.left, counter+1);
+		return this.depth(value, root.left, counter + 1);
 	}
 }
 
@@ -278,4 +276,5 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 prettyPrint(tree.root);
-console.log(tree.levelOrder((item) => item * 2));
+console.log(tree.height(8));
+console.log(tree.depth(4));
