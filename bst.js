@@ -132,23 +132,39 @@ class Tree {
 		return readArray;
 	}
 
-	preorder(callback, currentNode = this.root, array = []){
-	  // Base case.
-	  if(currentNode === null) return;
-	  
-	  // Read data.
-	  array.push(currentNode.data);
-	  
-	  // Recursive case.
-	  if(currentNode){
-	    if(currentNode.left !== null)
-	      this.preorder(callback, currentNode.left, array);
-	    if(currentNode.right !== null)
-	      this.preorder(callback, currentNode.right, array);
-	  }
-	 
-	 if (callback) return array.map((item) => callback(item));
-	 return array;
+	preorder(callback, currentNode = this.root, array = []) {
+		// Base case.
+		if (currentNode === null) return;
+
+		// Read data.
+		array.push(currentNode.data);
+
+		// Recursive case.
+		if (currentNode) {
+			if (currentNode.left !== null)
+				this.preorder(callback, currentNode.left, array);
+			if (currentNode.right !== null)
+				this.preorder(callback, currentNode.right, array);
+		}
+
+		if (callback) return array.map((item) => callback(item));
+		return array;
+	}
+
+	inorder(callback, currentNode = this.root, array = []) {
+		// Base case.	  if(currentNode === null) return;
+		if (currentNode) {
+			// left recursion.
+			if (currentNode.left !== null)
+				this.inorder(callback, currentNode.left, array);
+			// Read data.
+			array.push(currentNode.data);
+			// Right recursion.
+			if (currentNode.right !== null)
+				this.inorder(callback, currentNode.right, array);
+		}
+		if (callback) return array.map((item) => callback(item));
+		return array;
 	}
 }
 
@@ -216,4 +232,4 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 prettyPrint(tree.root);
-console.log(tree.levelOrder((item)=>item*2));
+console.log(tree.levelOrder((item) => item * 2));
