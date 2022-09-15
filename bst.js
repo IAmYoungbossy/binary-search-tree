@@ -199,6 +199,19 @@ class Tree {
 
 	 return counter;
 	}
+
+	depth(value, root = this.root, counter = 0){
+		// Base case.
+		if (root.data == value) return counter;
+		
+		// Recursive case.
+		if (root.data < value) {
+			if (root.right === null) return "Data Not Found.";
+			return this.depth(value, root.right, counter+1);
+		}
+		if (root.left === null) return "Data Not Found.";
+		return this.depth(value, root.left, counter+1);
+	}
 }
 
 // Array sorting Algorithm
