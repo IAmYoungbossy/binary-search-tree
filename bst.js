@@ -185,6 +185,20 @@ class Tree {
 	 if (callback) return array.map((item) => callback(item));
 	 return array;
 	}
+
+	// Measures tree height from input node.
+	height(value, node = this.find(value), counter = 0){
+	  // Base case.
+	  if(node === null) return;
+	  
+	  // Recursive case.
+	  if(node.left !== null)
+	  return this.height(value, node.left, counter+1);
+	  if(node.right !== null)
+	  return this.height(value, node.right, counter+1);
+
+	 return counter;
+	}
 }
 
 // Array sorting Algorithm
