@@ -232,6 +232,14 @@ class Tree {
 	  if(result.length > 0) return "Not balanced.";
 	  else return "Balanced."
 	}
+
+	rebalance(){
+	  if(this.isBalanced() === "Not balanced."){
+	  this.root = buildTree(this.inorder());
+	  return "Rebalanced.";
+	  }
+	  return "Already balanced."
+	}
 }
 
 // Array sorting Algorithm
