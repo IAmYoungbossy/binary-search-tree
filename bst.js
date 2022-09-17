@@ -75,14 +75,14 @@ class Tree {
 		if (root.data == value) return "Data already exist.";
 		if (root.data < value) {
 			nextRoot = root.right;
-			if (nextRoot == null) {
+			if (nextRoot === null) {
 				root.right = new Node(value, null, null);
 				return root.right;
 			}
 			return this.insert(value, nextRoot);
 		}
 		nextRoot = root.left;
-		if (nextRoot == null) {
+		if (nextRoot === null) {
 			root.left = new Node(value, null, null);
 			return root.left;
 		}
@@ -109,7 +109,6 @@ class Tree {
 		readArray = [this.root.data],
 		currentNode = this.root
 	) {
-		// Base case for termination
 		if (currentNode.left === null && currentNode.right === null) return;
 
 		// Condition for pushing unread node to queueArray
@@ -127,13 +126,11 @@ class Tree {
 			this.levelOrder(callback, queueArray, readArray, currentNode);
 		}
 
-		// Returned value
 		if (callback) return readArray.map((item) => callback(item));
 		return readArray;
 	}
 
 	preorder(callback, currentNode = this.root, array = []) {
-		// Base case.
 		if (currentNode === null) return;
 
 		// Read data.
@@ -152,23 +149,26 @@ class Tree {
 	}
 
 	inorder(callback, currentNode = this.root, array = []) {
-		// Base case.	  if(currentNode === null) return;
+		if (currentNode === null) return;
+
 		if (currentNode) {
 			// left recursion.
 			if (currentNode.left !== null)
 				this.inorder(callback, currentNode.left, array);
+
 			// Read data.
 			array.push(currentNode.data);
+
 			// Right recursion.
 			if (currentNode.right !== null)
 				this.inorder(callback, currentNode.right, array);
 		}
+
 		if (callback) return array.map((item) => callback(item));
 		return array;
 	}
 
 	postorder(callback, currentNode = this.root, array = []) {
-		// Base case.
 		if (currentNode === null) return;
 
 		if (currentNode) {
@@ -187,22 +187,18 @@ class Tree {
 	}
 
 	// Measures tree height from input node.
-	height(value, node = this.find(value), counter = 0) {
-		// Base case.
+	height(value, node = this.find(value), counter = 0, array = []) {
 		if (node === null) return;
+		array.push(counter);
 
-		// Recursive case.
-		if (node.left !== null) return this.height(value, node.left, counter + 1);
-		if (node.right !== null) return this.height(value, node.right, counter + 1);
-
-		return counter;
+		if (node.left !== null) this.height(value, node.left, counter + 1, array);
+		if (node.right !== null) this.height(value, node.right, counter + 1, array);
+		return array.sort((a, b) => a - b)[array.length - 1];
 	}
 
 	depth(value, root = this.root, counter = 0) {
-		// Base case.
 		if (root.data == value) return counter;
 
-		// Recursive case.
 		if (root.data < value) {
 			if (root.right === null) return "Data Not Found.";
 			return this.depth(value, root.right, counter + 1);
@@ -211,34 +207,32 @@ class Tree {
 		return this.depth(value, root.left, counter + 1);
 	}
 
-	isBalanced(node = this.root, result = []){
-	  // Base case.
-	  if(node.left !== null && node.right !== null){
-	    const leftNode = this.height(node.left.data);
-	    const rightNode = this.height(node.right.data);
-	    if(leftNode - rightNode > 1 || rightNode - leftNode > 1) result.push(1);
-	  }
-	  if(node.right && !node.left)
-	    if(node.right.right !== null || node.right.left !== null) result.push(2);
-	  if(node.left && !node.right)
-	    if(node.left.left !== null || node.left.right !== null) result.push(3);
-	  
-	  // Recursive case.
-	  if(node.left)
-	    this.isBalanced(node.left, result);
-	  if(node.right)
-	    this.isBalanced(node.right, result);
-	    
-	  if(result.length > 0) return "Not balanced.";
-	  else return "Balanced."
+	isBalanced(node = this.root, result = []) {
+		// Base case.
+		if (node.left !== null && node.right !== null) {
+			const leftNode = this.height(node.left.data);
+			const rightNode = this.height(node.right.data);
+			if (leftNode - rightNode > 1 || rightNode - leftNode > 1) result.push(1);
+		}
+		if (node.right && !node.left)
+			if (node.right.right !== null || node.right.left !== null) result.push(2);
+		if (node.left && !node.right)
+			if (node.left.left !== null || node.left.right !== null) result.push(3);
+
+		// Recursive case.
+		if (node.left) this.isBalanced(node.left, result);
+		if (node.right) this.isBalanced(node.right, result);
+
+		if (result.length > 0) return "Not balanced.";
+		else return "Balanced.";
 	}
 
-	rebalance(){
-	  if(this.isBalanced() === "Not balanced."){
-	  this.root = buildTree(this.inorder());
-	  return "Rebalanced.";
-	  }
-	  return "Already balanced."
+	rebalance() {
+		if (this.isBalanced() === "Not balanced.") {
+			this.root = buildTree(this.inorder());
+			return "Rebalanced.";
+		}
+		return "Already balanced.";
 	}
 }
 
@@ -273,8 +267,6 @@ function mergeSort(array) {
  * both left and right of midpont until no longer possible. */
 function buildTree(array, start = 0, end = array.length - 1) {
 	let midPoint = Math.floor((start + end) / 2);
-
-	// Base case for termination.
 	if (start > end) return null;
 
 	// Recursive case
@@ -306,5 +298,3 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 prettyPrint(tree.root);
-console.log(tree.height(8));
-console.log(tree.depth(4));
