@@ -210,6 +210,28 @@ class Tree {
 		if (root.left === null) return "Data Not Found.";
 		return this.depth(value, root.left, counter + 1);
 	}
+
+	isBalanced(node = this.root, result = []){
+	  // Base case.
+	  if(node.left !== null && node.right !== null){
+	    const leftNode = this.height(node.left.data);
+	    const rightNode = this.height(node.right.data);
+	    if(leftNode - rightNode > 1 || rightNode - leftNode > 1) result.push(1);
+	  }
+	  if(node.right && !node.left)
+	    if(node.right.right !== null || node.right.left !== null) result.push(2);
+	  if(node.left && !node.right)
+	    if(node.left.left !== null || node.left.right !== null) result.push(3);
+	  
+	  // Recursive case.
+	  if(node.left)
+	    this.isBalanced(node.left, result);
+	  if(node.right)
+	    this.isBalanced(node.right, result);
+	    
+	  if(result.length > 0) return "Not balanced.";
+	  else return "Balanced."
+	}
 }
 
 // Array sorting Algorithm
